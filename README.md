@@ -73,3 +73,36 @@ The page uses placeholder content and tags for demonstration. Meta information i
 - Add more meta fields or content sections as your project grows.
 
 ---
+
+## 🔐 Authentication
+
+Authentication is handled using **NextAuth** with Google as the provider and Prisma as the adapter for MongoDB.
+
+- The authentication logic is defined in `src/lib/auth.js`.
+- The `AuthProvider` component (`src/components/providers/AuthProvider.jsx`) wraps the app and provides authentication context using `SessionProvider`.
+- User sessions are managed with JWT strategy.
+- On sign-in, user data is fetched or created in the database and attached to the session token.
+- After sign-in, users are redirected to the dashboard.
+
+### Customization
+
+- To add more providers, update the `providers` array in `src/lib/auth.js`.
+- Adjust session and JWT callbacks for custom user data or roles.
+
+---
+
+## 🔑 Sign-In Page
+
+The sign-in page is implemented in `src/app/(auth)/sign-in/page.jsx`. It features:
+
+- A simple, centered UI with a Google sign-in button.
+- Loading state and error handling with toast notifications.
+- Uses the `signIn` function from NextAuth to trigger Google authentication.
+
+### Customization
+
+- Update the UI and messaging in `src/app/(auth)/sign-in/page.jsx`.
+- Add more sign-in options or providers as needed.
+- Customize the toast notifications for different error or success states.
+
+---

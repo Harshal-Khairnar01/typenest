@@ -17,7 +17,7 @@ export default function Landing() {
             </p>
           </div>
           <div className=" flex gap-3">
-            <Link href="/"  variant={"default"} className=" bg-gray-200 hover:bg-gray-300 transition-all   duration-200 delay-100 text-black  px-4 py-1  rounded-sm">
+            <Link href="/sign-in"  variant={"default"} className=" bg-gray-200 hover:bg-gray-300 transition-all   duration-200 delay-100 text-black  px-4 py-1  rounded-sm">
               Try it Out!
             </Link>
             <Button variant={"outline"}>Learn more</Button>

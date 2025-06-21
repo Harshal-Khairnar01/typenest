@@ -4,12 +4,13 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Poppins } from "next/font/google";
 import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "@/components/Navbar";
+import AuthProvider from "@/components/providers/AuthProvider";
+import { Toaster } from "@/components/ui/sonner";
 
-const poppins=Poppins({
-  subsets:['latin'],
-  weight:'400'
-})
-
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -19,17 +20,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className=" dark">
-      <body
-        className={`${poppins.className} antialiased`}
-      >
-        <SidebarProvider>
-          <AppSidebar />
-          <main className=" w-full">
-            <SidebarTrigger />
-            <Navbar/> 
-            {children}
-          </main>
-        </SidebarProvider>
+      <body className={`${poppins.className} antialiased`}>
+        <AuthProvider>
+          <SidebarProvider>
+            <AppSidebar />
+            <main className=" w-full">
+              <SidebarTrigger />
+              <Navbar />
+              {children}
+               <Toaster />
+            </main>
+          </SidebarProvider>
+        </AuthProvider>
       </body>
     </html>
   );

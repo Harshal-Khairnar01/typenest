@@ -14,7 +14,7 @@ export default function SignIn(){
         setLoading(true)
         await signIn('google')
        } catch (error) {
-        console.log(error.message)
+        // console.log(error.message)
         toast({
             variant:"destructive",
             title:"Uh oh!",

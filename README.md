@@ -74,35 +74,84 @@ The page uses placeholder content and tags for demonstration. Meta information i
 
 ---
 
-## 🔐 Authentication
+## 🧑‍💼 User Authentication & Session
 
-Authentication is handled using **NextAuth** with Google as the provider and Prisma as the adapter for MongoDB.
+Authentication is powered by **NextAuth** with Google as the provider and Prisma as the adapter for MongoDB.
 
-- The authentication logic is defined in `src/lib/auth.js`.
-- The `AuthProvider` component (`src/components/providers/AuthProvider.jsx`) wraps the app and provides authentication context using `SessionProvider`.
-- User sessions are managed with JWT strategy.
-- On sign-in, user data is fetched or created in the database and attached to the session token.
-- After sign-in, users are redirected to the dashboard.
+- **Configuration:**  
+  - The authentication logic is in `src/lib/auth.js`.
+  - Uses JWT session strategy and stores user data in MongoDB via Prisma.
+  - Custom callbacks enrich the session and JWT with user info and roles.
+  - After sign-in, users are redirected to `/dashboard`.
+
+- **Provider:**  
+  - The `AuthProvider` component (`src/components/providers/AuthProvider.jsx`) wraps the app and provides authentication context using `SessionProvider`.
+
+- **Sign Out:**  
+  - The `SignOut` component (`src/components/SignOut.jsx`) allows users to log out, redirecting them to the sign-in page.
 
 ### Customization
 
-- To add more providers, update the `providers` array in `src/lib/auth.js`.
+- Add more providers in the `providers` array in `src/lib/auth.js`.
 - Adjust session and JWT callbacks for custom user data or roles.
 
 ---
 
+## 🧑‍💻 Navbar
+
+The `Navbar` component (`src/components/Navbar.jsx`) displays:
+
+- The app logo and name.
+- User avatar and dropdown menu when authenticated.
+- "Sign In" link when not authenticated.
+- Dropdown menu includes profile link and sign out option.
+
+The user session is fetched server-side using `getAuthSession` from `src/lib/auth.js`.
+
+---
+
+## 🏠 Dashboard
+
+The dashboard page (`src/app/dashboard/page.jsx`) is protected:
+
+- Only accessible to authenticated users.
+- Displays a welcome message with the user's name.
+- Shows a "Not Authenticated" message if accessed without a valid session.
+
+---
+
+
+
 ## 🔑 Sign-In Page
 
-The sign-in page is implemented in `src/app/(auth)/sign-in/page.jsx`. It features:
+The sign-in page (`src/app/(auth)/sign-in/page.jsx`) features:
 
-- A simple, centered UI with a Google sign-in button.
-- Loading state and error handling with toast notifications.
-- Uses the `signIn` function from NextAuth to trigger Google authentication.
+- Google sign-in button with loading state.
+- Error handling with toast notifications.
+- Simple, centered UI.
 
-### Customization
+---
 
-- Update the UI and messaging in `src/app/(auth)/sign-in/page.jsx`.
-- Add more sign-in options or providers as needed.
-- Customize the toast notifications for different error or success states.
+## 🛠️ Utilities
+
+- **Prisma Client:**  
+  - Defined in `src/lib/prisma.js` for database access, with support for hot-reloading in development.
+
+- **Class Name Utility:**  
+  - `src/lib/utils.js` provides a `cn` function for merging Tailwind and conditional class names.
+
+---
+
+## 🧩 Component Structure
+
+- All providers are in `src/components/providers/`.
+- UI components (sidebar, navbar, sign out, etc.) are modular and reusable.
+
+---
+## 📝 How to Extend
+
+- Add new authentication providers in `src/lib/auth.js`.
+- Customize the Navbar and Sidebar for your app’s needs.
+- Add new pages or features by following the existing folder and component structure.
 
 ---

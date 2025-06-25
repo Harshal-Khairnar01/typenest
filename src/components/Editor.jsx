@@ -20,7 +20,7 @@ const Editor = ({ onSave }) => {
 
   const handleForm = (data) => {
     const generatedSlug = slugify(data.title);
-    onSave({ ...data, slug: generatedSlug,ogImage,content });
+    onSave({ ...data, slug: generatedSlug, ogImage, content });
   };
   return (
     <section>
@@ -72,7 +72,7 @@ const Editor = ({ onSave }) => {
           type="text"
         />
         <h2 className=" text-xl font-bold">SEO Data</h2>
-        <ImageUpload returnImage={setOgImage} /> 
+        <ImageUpload returnImage={setOgImage} />
         <input
           {...register("keywords")}
           placeholder="Enter Keywords"

@@ -1,36 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// const blogConfig = [
-//   {
-//     title: "react vs next.js",
-//     excerpt: "Next.js is the ultimate development framework!",
-//     image: "/thumbnails/1.png",
-//     url: "/demo-slug",
-//   },
-//   {
-//     title: "Dreams to a Remote Developer",
-//     excerpt: "Get a Job as a remote developer, forntend , backend, full stack!",
-//     image: "/thumbnails/2.png",
-//     url: "/demo-slug",
-//   },
-//   {
-//     title: "Became backend dev in no time",
-//     excerpt: "Next.js is the ultimate development framework!",
-//     image: "/thumbnails/1.png",
-//     url: "/demo-slug",
-//   },
-// ];
 
 const fetchAllBlogs = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/get`);
   const data = await res.json();
-  console.log(data)
   return data;
 };
 
 export default async function Blogs() {
-  const blogData=await fetchAllBlogs();
+  const blogData = await fetchAllBlogs();
   return (
     <section className=" grid gap-4 grid-cols-2 md:grid-cols-3 p-8">
       {blogData.map((blog) => {

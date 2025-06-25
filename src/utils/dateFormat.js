@@ -1,12 +1,16 @@
 export default function dateFormat(date) {
+    let tempDate;
     if(date instanceof Date){
-
-        return new Date(date).toLocaleDateString("en-IN", {
+        tempDate=date;
+    }else if(typeof date=='string'){
+        tempDate=new Date(date);
+    }else{
+        return "Date Not Found"
+    }
+    if(isNaN(tempDate)) return "";
+    return tempDate.toLocaleDateString("en-IN", {
           day: "numeric",
           month: "short",
           year: "numeric",
         });
-    }else{
-        return "Date Not Found"
-    }
 }

@@ -52,7 +52,7 @@ model User {
 
 model VerificationRequest {
    id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String
+  identifier String 
   token      String
   expires    DateTime
   createdAt DateTime @default(now())

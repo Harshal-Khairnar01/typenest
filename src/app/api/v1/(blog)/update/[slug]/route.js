@@ -6,7 +6,7 @@ import { revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
-  const { slug } = params;
+  const  slug  = params.slug;
 
   const body = await request.json();
   const {
@@ -63,7 +63,7 @@ export async function PUT(request, { params }) {
       },
     });
     revalidateTag(slug);
-    return NextResponse.json(updatedPost, { status: 403 });
+    return NextResponse.json(updatedPost, { status: 200 });
   } catch (error) {
     console.log(error.message);
     return NextResponse.json(
@@ -76,7 +76,7 @@ export async function PUT(request, { params }) {
 }
 
 export async function GET(request,{params}) {
-    const {slug}=params;
+    const slug=params.slug;
     const session=await getServerSession(authOptions);
     const isadmin=await isAdmin(session);
      
@@ -88,7 +88,7 @@ export async function GET(request,{params}) {
         return NextResponse.json({message:"Post not found!"},{status:404})
     }
 
-    const isAuthor=session.user.id==post.authorId;
+    const isAuthor=session.user.id===post.authorId;
 
     if(!isAuthor && !isadmin ){
          return NextResponse.json({message:"You are not allowed to edit the post"},{status:403})

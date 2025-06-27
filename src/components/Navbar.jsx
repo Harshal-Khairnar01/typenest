@@ -18,7 +18,7 @@ export default async function Navbar() {
   const session=await getAuthSession()
   // console.log(session)
   return (
-    <div className=" w-full flex justify-between px-8 h-12">
+    <div className=" w-full flex justify-between items-center px-8 h-12">
       <Link href="/" className=" flex gap-2">
         <Anvil />
         <span className=" font-extrabold"> NameWillBe</span>
@@ -37,12 +37,12 @@ export default async function Navbar() {
 const UserModalComponent = ({ user }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className=" outline-none">
         <Image
         className=" rounded-full border-2 border-green-500"
         src={user.image}
-        width={40}
-        height={40}
+        width={30}
+        height={30}
         alt={user.name}
          />
       </DropdownMenuTrigger>

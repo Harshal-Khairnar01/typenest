@@ -1,11 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
-export default function ImageUpload({ returnImage }) {
+export default function ImageUpload({ returnImage, preloadedImage }) {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+
+  useEffect(() => {
+    console.log(preloadedImage, "ppppppppp");
+  }, [preloadedImage]);
 
   const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   const CLOUDINARY_UPLOAD_PRESET =
@@ -43,6 +48,31 @@ export default function ImageUpload({ returnImage }) {
       setLoading(false);
     }
   };
+
+  if (preloadedImage) {
+    return (
+      <>
+        <label>
+          <span className="bg-gray-500/10 border border-gray-200 border-dashed p-3 rounded cursor-pointer">
+            {loading ? "Uploading..." : "Update Cover Image"}
+          </span>
+          <input
+            type="file"
+            onChange={handleImageAsFile}
+            hidden
+            disabled={loading}
+          />
+        </label>
+        <Image
+          width={300}
+          height={170}
+          src={preloadedImage}
+          alt="Uploaded"
+          className="max-w-xs h-auto border border-gray-400 rounded-md"
+        />
+      </>
+    );
+  }
 
   return (
     <div className=" py-2">

@@ -9,6 +9,7 @@ export async function POST(request) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   const body = await request.json();
+
   const {
     title,
     slug,
@@ -32,10 +33,12 @@ export async function POST(request) {
   //   keywords,
   //   status
   // );
+  console.log(metaDescription)
   if (!title || !content || !slug || !category || !session.user.id) {
     return NextResponse.json({ message: "Missing Fields" }), { status: 400 };
   }
   const statusPost = status || "DRAFT";
+
 
   try {
     let categoryCheck = await prisma.category.findUnique({
@@ -67,7 +70,7 @@ export async function POST(request) {
     });
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
-    // console.log(error.message)
+    console.log(error.message)
     return NextResponse.json(
       { message: "Could not save post" },
       { status: 500 }

@@ -15,15 +15,19 @@ const EditPreviousDraft = ({ params }) => {
       );
       if (!res.ok) {
         if (res.status === 403) {
-          toast({
-            title: "Uh oh!",
-            description: "You are not allowed to edit the post!",
-          });
+          toast(
+            <div>
+              <p className="font-bold text-red-500">Uh oh!</p>
+              <p>You are not allowed to edit the post!</p>
+            </div>
+          );
         } else {
-          toast({
-            title: "Uh oh!",
-            description: "Unable to load post!",
-          });
+          toast(
+            <div>
+              <p className="font-bold text-red-500">Uh oh!</p>
+              <p>Unable to load post!</p>
+            </div>
+          );
         }
         return;
       }

@@ -7,38 +7,99 @@ import dynamic from "next/dynamic";
 import "react-quill-new/dist/quill.snow.css";
 import { slugify } from "slugmaster";
 import ImageUpload from "./ImageUpload";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { z } from "zod";
+
+const schema = z.object({
+  title: z
+    .string()
+    .min(10, { message: "Title must contain 10 or more characters" })
+    .min(1, { message: "Title must not be empty!" }),
+  excerpt: z
+    .string()
+    .min(10, { message: "Please add some details in the excerpt" }),
+  category: z.string().min(1, { message: "Please add a category" }),
+  metaDescription: z.string().optional(),
+  keywords: z
+    .string()
+    .min(1, { message: "Keywords should be there for SEO benefits" }),
+  status: z.enum(["DRAFT", "PUBLISHED"]),
+});
 
 const ReactQuill = dynamic(() => import("react-quill-new"), {
   ssr: false,
   loading: () => <p>Loading editor...</p>,
 });
 
-const Editor = ({ onSave,initialData }) => {
-  const { register, handleSubmit ,setValue} = useForm();
+const Editor = ({ onSave, initialData }) => {
+  const { register, handleSubmit, setValue } = useForm();
   const [content, setContent] = useState("");
   const [ogImage, setOgImage] = useState("");
 
-  useEffect(()=>{
-    if(initialData){
-      setValue('title',initialData.title);
-     setContent(initialData.Content);
-     setOgImage(initialData.thumbnail)
-      setValue('keywords',initialData.keywords || "");
-      setValue('category',initialData.catSlug || "");
-      setValue('excerpt',initialData.excerpt || "");
-      setValue('excerpt',initialData.excerpt || "");
-      setValue('metaDescription',initialData.desc || "");
-      setValue('status',initialData.status );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (initialData) {
+      setValue("title", initialData.title);
+      setContent(initialData.Content);
+      setOgImage(initialData.thumbnail);
+      setValue("keywords", initialData.keywords || "");
+      setValue("category", initialData.catSlug || "");
+      setValue("excerpt", initialData.excerpt || "");
+      setValue("excerpt", initialData.excerpt || "");
+      setValue("metaDescription", initialData.desc || "");
+      setValue("status", initialData.status);
     }
-  },[initialData])
+  }, [initialData]);
 
   const handleForm = (data) => {
-    const generatedSlug = slugify(data.title);
-    onSave({ ...data, slug: generatedSlug, ogImage, content });
+    try {
+      const generatedSlug = initialData
+        ? initialData.slug
+        : slugify(data.title);
+      onSave({ ...data, slug: generatedSlug, ogImage, content });
+      toast(
+        <div>
+          <p className="font-semibold">✅ Success</p>
+          <p>
+            {initialData
+              ? "Your blog was updated."
+              : "Your blog page was published."}
+          </p>
+        </div>
+      );
+      if (data.status === "PUBLISHED") {
+        router.push(`/blog/${generatedSlug}`);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
   };
   return (
     <section>
-      <form className=" space-y-4" onSubmit={handleSubmit(handleForm)}>
+      <form
+        className=" space-y-4"
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            await schema.parseAsync(data);
+            await handleForm(data);
+          } catch (error) {
+            console.error(error.message);
+
+            if (error instanceof z.ZodError) {
+              error.errors.forEach((error) => {
+                toast(
+                  <div>
+                    <p className="font-bold text-red-500">Error</p>
+                    <p>{error.message}</p>
+                  </div>
+                );
+              });
+            }
+          }
+        })}
+      >
         <input
           {...register("title")}
           placeholder="Enter the post title"

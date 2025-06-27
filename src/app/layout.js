@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ['400','500','600']
+  weight: ["400", "500", "600"],
 });
 
 export const metadata = {
@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
               <SidebarTrigger />
               <Navbar />
               {children}
-               <Toaster />
+              <Toaster />
             </main>
           </SidebarProvider>
         </AuthProvider>

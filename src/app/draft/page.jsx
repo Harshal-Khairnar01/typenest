@@ -36,6 +36,7 @@ const Draft = () => {
         }),
       }
     );
+    console.log(res)
     if (!res.ok) {
       throw new Error("Post Saving failed");
     }

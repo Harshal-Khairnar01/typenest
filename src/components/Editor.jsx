@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
@@ -13,10 +13,24 @@ const ReactQuill = dynamic(() => import("react-quill-new"), {
   loading: () => <p>Loading editor...</p>,
 });
 
-const Editor = ({ onSave }) => {
-  const { register, handleSubmit } = useForm();
+const Editor = ({ onSave,initialData }) => {
+  const { register, handleSubmit ,setValue} = useForm();
   const [content, setContent] = useState("");
   const [ogImage, setOgImage] = useState("");
+
+  useEffect(()=>{
+    if(initialData){
+      setValue('title',initialData.title);
+     setContent(initialData.Content);
+     setOgImage(initialData.thumbnail)
+      setValue('keywords',initialData.keywords || "");
+      setValue('category',initialData.catSlug || "");
+      setValue('excerpt',initialData.excerpt || "");
+      setValue('excerpt',initialData.excerpt || "");
+      setValue('metaDescription',initialData.desc || "");
+      setValue('status',initialData.status );
+    }
+  },[initialData])
 
   const handleForm = (data) => {
     const generatedSlug = slugify(data.title);
@@ -72,7 +86,7 @@ const Editor = ({ onSave }) => {
           type="text"
         />
         <h2 className=" text-xl font-bold">SEO Data</h2>
-        <ImageUpload returnImage={setOgImage} />
+        <ImageUpload returnImage={setOgImage} preloadedImage={ogImage} />
         <input
           {...register("keywords")}
           placeholder="Enter Keywords"
@@ -80,7 +94,7 @@ const Editor = ({ onSave }) => {
           type="text"
         />
         <input
-          {...register("mataDescription")}
+          {...register("metaDescription")}
           placeholder="Enter Meta Description"
           className=" font-bold text-xl bg-zinc-600 px-3 py-2 rounded-sm outline-none w-full"
           type="text"

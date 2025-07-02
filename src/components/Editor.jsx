@@ -22,6 +22,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import AIContent from "@/utils/ai-content";
+import { Sparkle, Sparkles } from "lucide-react";
 
 const schema = z.object({
   title: z
@@ -50,9 +51,11 @@ const Editor = ({ onSave, initialData }) => {
   const [ogImage, setOgImage] = useState("");
 
   const router = useRouter();
+  const [selectionExist, setSelectionExist] = useState(false);
 
   const ideaRef = useRef(null);
-  const closeDialogRef=useRef(null);
+  const closeDialogRef = useRef(null);
+  const quillRef = useRef(null);
 
   useEffect(() => {
     if (initialData) {
@@ -92,32 +95,96 @@ const Editor = ({ onSave, initialData }) => {
     }
   };
 
- const handleGenerateContentUsingAI = async () => {
-  try {
-    const res = await fetch("/api/ai-content", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text: ideaRef.current.value,
-        customInstructions: "Generate content with proper facts",
-        contentGen: true,
-      }),
-    });
+  const handleGenerateContentUsingAI = async () => {
+    try {
+      const res = await fetch("/api/ai-content", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: ideaRef.current.value,
+          customInstructions: "Generate content with proper facts",
+          contentGen: true,
+        }),
+      });
 
-    const data = await res.json();
-    if (data.content) {
-      setContent(data.content);
-    } else {
-      console.error(" OpenAI Error:", data.error || "Unknown error");
+      const data = await res.json();
+      if (data.content) {
+        setContent(data.content);
+      } else {
+        console.error(" OpenAI Error:", data.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error(" Client Error:", error.message);
+    } finally {
+      closeDialogRef.current?.click();
     }
-  } catch (error) {
-    console.error(" Client Error:", error.message);
-  } finally {
-    closeDialogRef.current?.click();
-  }
-};
+  };
+
+  const handleRephrase = async () => {
+    const selection = quillRef?.current?.getEditor().getSelection();
+    if (selection && selection.length > 0) {
+      try {
+        const selectedText = quillRef?.current
+          ?.getEditor()
+          .getText(selection.index, selection.length);
+
+        const res = await fetch("/api/ai-content", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            text: selectedText,
+            customInstructions: "Rewrite this text",
+            contentGen: false,
+          }),
+        });
+
+        const data = await res.json();
+
+        if (data.content) {
+          quillRef?.current
+            ?.getEditor()
+            .deleteText(selection.index, selection.length);
+
+          quillRef?.current
+            ?.getEditor()
+            .insertText(selection.index, data.content);
+
+          setSelectionExist(false);
+        } else {
+          toast(
+            <div>
+              <p className="font-bold text-red-500">Error</p>
+              <p>AI content missing or invalid!</p>
+            </div>
+          );
+        }
+      } catch (error) {
+        console.error(error.message);
+        toast(
+          <div>
+            <p className="font-bold text-red-500">Uh oh!</p>
+            <p>Content Rephrasing Failed!</p>
+          </div>
+        );
+      }
+    } else {
+      toast(
+        <div>
+          <p className="font-bold text-red-500">Uh oh!</p>
+          <p>Please select some text to rephrase!!</p>
+        </div>
+      );
+    }
+  };
+
+  const handleSelectionChanged = () => {
+    const selection = quillRef?.current?.getEditor().getSelection();
+    setSelectionExist(selection && selection.length > 0);
+  };
 
   return (
     <section>
@@ -152,6 +219,8 @@ const Editor = ({ onSave, initialData }) => {
         <ReactQuill
           value={content}
           onChange={setContent}
+          onChangeSelection={handleSelectionChanged}
+          ref={quillRef}
           modules={{
             toolbar: [
               [{ header: "1" }, { header: "2" }, { header: "3" }],
@@ -179,7 +248,9 @@ const Editor = ({ onSave, initialData }) => {
         />
 
         <Dialog>
-          <DialogTrigger>Generate Content Using AI</DialogTrigger>
+          <DialogTrigger className=" flex gap-2 items-center border-2 p-2 rounded">
+            Generate Content Using AI <Sparkles />
+          </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogDescription>
@@ -242,6 +313,15 @@ const Editor = ({ onSave, initialData }) => {
           </button>
         </div>
       </form>
+      {selectionExist && (
+        <Button
+          className="  fixed bottom-10 right-10"
+          onClick={handleRephrase}
+          variant="outline"
+        >
+          Rewrite using AI <Sparkles />{" "}
+        </Button>
+      )}
     </section>
   );
 };

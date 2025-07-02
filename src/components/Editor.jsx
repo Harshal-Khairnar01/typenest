@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 
@@ -10,6 +10,18 @@ import ImageUpload from "./ImageUpload";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import AIContent from "@/utils/ai-content";
 
 const schema = z.object({
   title: z
@@ -38,6 +50,9 @@ const Editor = ({ onSave, initialData }) => {
   const [ogImage, setOgImage] = useState("");
 
   const router = useRouter();
+
+  const ideaRef = useRef(null);
+  const closeDialogRef=useRef(null);
 
   useEffect(() => {
     if (initialData) {
@@ -76,6 +91,34 @@ const Editor = ({ onSave, initialData }) => {
       console.error(error.message);
     }
   };
+
+ const handleGenerateContentUsingAI = async () => {
+  try {
+    const res = await fetch("/api/ai-content", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        text: ideaRef.current.value,
+        customInstructions: "Generate content with proper facts",
+        contentGen: true,
+      }),
+    });
+
+    const data = await res.json();
+    if (data.content) {
+      setContent(data.content);
+    } else {
+      console.error(" OpenAI Error:", data.error || "Unknown error");
+    }
+  } catch (error) {
+    console.error(" Client Error:", error.message);
+  } finally {
+    closeDialogRef.current?.click();
+  }
+};
+
   return (
     <section>
       <form
@@ -134,6 +177,29 @@ const Editor = ({ onSave, initialData }) => {
             "code-block",
           ]}
         />
+
+        <Dialog>
+          <DialogTrigger>Generate Content Using AI</DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogDescription>
+                Give a brief on the type of content you want to generate
+              </DialogDescription>
+              <textarea
+                ref={ideaRef}
+                className=" bg-zinc-800 p-2 rounded outline-none"
+                rows={10}
+              ></textarea>
+            </DialogHeader>
+            <DialogFooter>
+              <Button onClick={handleGenerateContentUsingAI}>Generate</Button>
+              <DialogClose asChild ref={closeDialogRef}>
+                <Button variant="ghost">Close</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
         <input
           {...register("excerpt")}
           placeholder="Enter an excerpt"

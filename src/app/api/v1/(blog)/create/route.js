@@ -33,7 +33,7 @@ export async function POST(request) {
   //   keywords,
   //   status
   // );
-  console.log(metaDescription)
+  // console.log(metaDescription)
   if (!title || !content || !slug || !category || !session.user.id) {
     return NextResponse.json({ message: "Missing Fields" }), { status: 400 };
   }

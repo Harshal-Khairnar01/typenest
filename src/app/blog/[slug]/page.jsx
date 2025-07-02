@@ -64,7 +64,7 @@ export default async function SigleBlog({ params }) {
               <p>Tags:</p>
               {post?.keywords.split(",").map((tag, index) => (
                 <p
-                  key={index}
+                  key={tag+index}
                   className="  badge bg-gray-600/40 border  border-gray-700 w-fit px-2 py-1 rounded"
                 >
                   {tag}

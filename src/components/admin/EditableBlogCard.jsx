@@ -84,6 +84,12 @@ export default function EditableBlogCards({ post }) {
             ) : (
               <Button onClick={() => publishABlog(post.id)}>Publish</Button>
             )}
+             <Button
+                onClick={() => router.push(`/draft/${post.slug}`)}
+                variant="outline"
+              >
+               Edit
+              </Button>
             {currentStatus === "PUBLISHED" && (
               <Button onClick={() => router.push(`/blog/${post.slug}`)}>
                 View

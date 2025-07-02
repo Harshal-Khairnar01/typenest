@@ -65,7 +65,7 @@ const Editor = ({ onSave, initialData }) => {
           <p>
             {initialData
               ? "Your blog was updated."
-              : "Your blog page was published."}
+              : "Your blog was published."}
           </p>
         </div>
       );

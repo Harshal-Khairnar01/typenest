@@ -50,21 +50,24 @@ export default async function SigleBlog({ params }) {
         <div className=" meta-of-a-blog space-y-2">
           <div className="  flex flex-col sm:flex-row gap-5">
             <div className=" flex gap-2  items-center">
-            <Calendar className=" text-gray-400 size-4" />
-            <p className=" text-gray-400 text-xs">
-              Created on: {dateFormat(post.createdAt)}
-            </p>
-          </div>
-          <Link className=" flex gap-2 items-center justify-center" href={`/user/${post.author.username}`}>
-            <Image
-            className=" rounded-full"
-              src={post.author.image}
-              width={20}
-              height={20}
-              alt={post.author.name}
-            />
-            <p className=" text-xs text-gray-400">{post.author.name}</p>
-          </Link>
+              <Calendar className=" text-gray-400 size-4" />
+              <p className=" text-gray-400 text-xs">
+                Created on: {dateFormat(post.createdAt)}
+              </p>
+            </div>
+            <Link
+              className=" flex gap-2 items-center justify-center"
+              href={`/user/${post.author.username}`}
+            >
+              <Image
+                className=" rounded-full"
+                src={post.author.image}
+                width={20}
+                height={20}
+                alt={post.author.name}
+              />
+              <p className=" text-xs text-gray-400">{post.author.name}</p>
+            </Link>
           </div>
           <div className=" text-xs flex items-center gap-2">
             <p>Categories:</p>

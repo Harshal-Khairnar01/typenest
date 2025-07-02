@@ -13,6 +13,7 @@ export async function GET(request, { params }) {
         select: {
           name: true,
           image: true,
+          username:true,
         },
       },
     },

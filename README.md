@@ -1,13 +1,13 @@
-# 📝 CMS - Content Management System
+# 📝 Typenest : a cozy place for writing
 
 A modern and customizable Content Management System built with **Next.js** for both frontend and backend. Styled using **shadcn/ui** components.
 
 ## 🧰 Tech Stack
 
-- **Framework**: Next.js (App Router)  
-- **Styling**: Tailwind CSS + shadcn/ui  
-- **Database**: MongoDB and Prisma  
-- **Authentication**: NextAuth  
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Database**: MongoDB and Prisma
+- **Authentication**: NextAuth
 
 ## 📦 Getting Started
 
@@ -24,7 +24,7 @@ npm run dev
 The landing page is implemented in `src/app/page.js` and serves as the main entry point for users. It features:
 
 - **Hero Section:**  
-  Bold headline and subtext to introduce the CMS, with call-to-action buttons: "Try it Out!" and "Learn more".
+  Bold headline and subtext to introduce the Typenest, with call-to-action buttons: "Try it Out!" and "Learn more".
 - **Feature Highlights:**  
   Three columns showcasing: Intuitive Editor, Flexible Tools, and Blazing Fast performance, each with an icon and description.
 - **Newsletter/Signup Section:**  
@@ -78,16 +78,18 @@ The page uses placeholder content and tags for demonstration. Meta information i
 
 Authentication is powered by **NextAuth** with Google as the provider and Prisma as the adapter for MongoDB.
 
-- **Configuration:**  
+- **Configuration:**
+
   - The authentication logic is in `src/lib/auth.js`.
   - Uses JWT session strategy and stores user data in MongoDB via Prisma.
   - Custom callbacks enrich the session and JWT with user info and roles.
   - After sign-in, users are redirected to `/dashboard`.
 
-- **Provider:**  
+- **Provider:**
+
   - The `AuthProvider` component (`src/components/providers/AuthProvider.jsx`) wraps the app and provides authentication context using `SessionProvider`.
 
-- **Sign Out:**  
+- **Sign Out:**
   - The `SignOut` component (`src/components/SignOut.jsx`) allows users to log out, redirecting them to the sign-in page.
 
 ### Customization
@@ -120,8 +122,6 @@ The dashboard page (`src/app/dashboard/page.jsx`) is protected:
 
 ---
 
-
-
 ## 🔑 Sign-In Page
 
 The sign-in page (`src/app/(auth)/sign-in/page.jsx`) features:
@@ -132,26 +132,157 @@ The sign-in page (`src/app/(auth)/sign-in/page.jsx`) features:
 
 ---
 
-## 🛠️ Utilities
 
-- **Prisma Client:**  
-  - Defined in `src/lib/prisma.js` for database access, with support for hot-reloading in development.
+## 🔐 Sign-Up Page (`src/app/(auth)/sign-up/page.jsx`)
 
-- **Class Name Utility:**  
-  - `src/lib/utils.js` provides a `cn` function for merging Tailwind and conditional class names.
+- Dedicated page for **new user registration**.
+- Includes **Google sign-up** with a loading state.
+- Displays **error messages** using toast notifications.
+- Clean, centered UI layout.
+- Reuses `AuthForm` configured for sign-up.
+
+---
+
+## 🔍 Search Page (`src/app/search/page.jsx`)
+
+- Input field to **search blog posts** dynamically.
+- Shows results in a **list of blog cards** with:
+  - Title
+  - Short excerpt
+  - Author's name and image
+- Includes **loading** and **error** handling states.
+- Uses **debounce** for efficient fetch calls.
+
+### 🔧 Customization:
+- Modify `<li>` element content/styling to change search result display.
+- Add filters (category, date, tags, etc.) or sorting options.
+
+---
+
+## ✍️ Create Post (Draft) Page (`src/app/draft/page.jsx`)
+
+- Interface to **compose a new blog post**.
+- Uses `Editor` (rich text editor) to write content.
+- Form fields include:
+  - Title
+  - Excerpt
+  - Category
+  - Keywords
+  - Meta description
+  - Open Graph (OG) image
+  - Status (Draft / Published)
+- AI tools for content generation and rephrasing.
+- Saves new posts via `POST /api/v1/create`.
+
+### 🔧 Customization:
+- Modify toolbar options in the `Editor` component.
+- Add more fields for extended metadata.
+
+---
+
+## ✏️ Edit Post Page (`src/app/edit/[slug]/page.jsx`)
+
+- Dynamically loads post using the **slug** from the URL.
+- Uses the same `Editor` as the create page.
+- Pre-fills post data for editing.
+- Fields:
+  - Title, Content, OG Image
+  - Excerpt, Meta, Keywords, Status
+- **Authorization** check ensures only allowed users can edit.
+- Updates via `PUT /api/v1/update/[slug]`.
+
+### 🔧 Customization:
+- Add revision history/version control.
+- Add user-role-based permissions for post updates.
+
+---
+
+## 📊 All Posts Page (`src/app/all-posts/page.jsx`)
+
+- Central hub for viewing all posts.
+- **Admin view**: Uses `AdminAllPosts` with management tools.
+- **User view**: Uses `UserAllPosts` with personal blog list.
+- Supports:
+  - **Pagination**
+  - **Filtering by category** via `searchParams`
+- Checks roles with `getServerSession` and `isAdmin`.
+
+### 🔧 Customization:
+- Add filters for date range, author, tags, etc.
+- Add integrated search bar.
+
+---
+
+## 👥 All Users Page (Admin Only) (`src/app/all-users/page.jsx`)
+
+- Admin-only view for managing users.
+- Uses `AdminAllUsers` component.
+- Secured with:
+  - `getServerSession`
+  - `isAdmin` utility
+- Unauthorized users see: **"You are not Authorized!"**
+
+### 🔧 Customization:
+- Add role editing, user blocking, and activity logs.
+- Add search and filters for users.
+
+---
+
+## 🛠️ Utilities & Helpers
+
+### 🔹 Prisma Client
+- Defined in `src/lib/prisma.js`
+- Supports **hot-reloading** in development.
+
+### 🔹 Class Name Utility
+- `src/lib/utils.js`: Includes `cn()` to merge conditional Tailwind classes.
+
+### 🔹 AI Content Utility
+- `src/utils/ai-content.js`: Handles server-side interaction with OpenAI API for content generation and rephrasing.
+
+### 🔹 isAdmin Utility
+- `src/utils/isAdmin.js`: Checks if a session belongs to an admin user.
 
 ---
 
 ## 🧩 Component Structure
 
-- All providers are in `src/components/providers/`.
-- UI components (sidebar, navbar, sign out, etc.) are modular and reusable.
+- **Providers**: `src/components/providers/`
+- **Reusable UI**: Sidebar, Navbar, Sign Out, etc.
+- **Admin Components**:
+  - `AdminAllPosts`
+  - `AdminAllUsers`
+- **Forms & Editor**:
+  - `AuthForm`: Handles both sign-in and sign-up.
+  - `Editor`: Rich text + AI content support.
 
 ---
-## 📝 How to Extend
 
-- Add new authentication providers in `src/lib/auth.js`.
-- Customize the Navbar and Sidebar for your app’s needs.
-- Add new pages or features by following the existing folder and component structure.
+## 🚀 How to Extend
+
+- Add new auth providers in `src/lib/auth.js`.
+- Customize `Navbar` and `Sidebar`.
+- Add new pages following the current structure.
+- Extend AI features via `ai-content.js`.
+- Add notifications, tags, reactions, etc.
+
+---
+## 📦 Tech Stack
+
+- Next.js 14 (App Router)
+- Prisma + PostgreSQL
+- NextAuth.js (with Google Auth)
+- Tailwind CSS
+- OpenAI (for content tools)
+- React Hook Form + Zod
+
+---
+
+## 🔐 Authentication
+
+- Uses NextAuth for:
+  - Google Sign-In
+  - Session management
+- Role-based access using custom `isAdmin()` logic
 
 ---

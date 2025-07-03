@@ -28,7 +28,7 @@ export default function AuthForm({ origin }) {
         <Anvil className=" size-12 text-gray-300" />
         <p className=" text-center  text-sm text-gray-200">
           {origin === "signup"
-            ? "Welcome, by continuing with CMS sign in, you'll be a Member"
+            ? "Welcome, by continuing with Typenest sign in, you'll be a Member"
             : "Welcome back! Glad to have you back"}
         </p>
         <button
@@ -48,7 +48,7 @@ export default function AuthForm({ origin }) {
           </p>
         ) : (
           <p className=" text-sm text-gray-400">
-            New to CMS?{" "}
+            New to Typenest?{" "}
             <Link className=" underline" href="/sign-up">
               Sign Up
             </Link>

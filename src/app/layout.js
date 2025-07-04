@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],

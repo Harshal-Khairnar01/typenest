@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { Suspense } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,11 +28,13 @@ export default function RootLayout({ children }) {
             <main className=" w-full">
               <SidebarTrigger />
               <Navbar />
-              {children}
-              <Toaster />
+               <Suspense fallback={<div>Loading authentication...</div>}>
+                {children}
+              </Suspense>
             </main>
           </SidebarProvider>
         </AuthProvider>
+              <Toaster position="top-center" />
       </body>
     </html>
   );

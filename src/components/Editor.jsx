@@ -21,8 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import AIContent from "@/utils/ai-content";
-import { Sparkle, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 const schema = z.object({
   title: z
@@ -53,6 +52,9 @@ const Editor = ({ onSave, initialData }) => {
   const router = useRouter();
   const [selectionExist, setSelectionExist] = useState(false);
 
+  const [isGeneratingContent, setIsGeneratingContent] = useState(false);
+  const [isRephrasing, setIsRephrasing] = useState(false);
+
   const ideaRef = useRef(null);
   const closeDialogRef = useRef(null);
   const quillRef = useRef(null);
@@ -69,17 +71,17 @@ const Editor = ({ onSave, initialData }) => {
       setValue("metaDescription", initialData.desc || "");
       setValue("status", initialData.status);
     }
-  }, [initialData]);
+  }, [initialData, setValue]);
 
-  const handleForm = (data) => {
+  const handleForm = async (data) => {
     try {
       const generatedSlug = initialData
         ? initialData.slug
         : slugify(data.title);
-      onSave({ ...data, slug: generatedSlug, ogImage, content });
-      toast(
+      await onSave({ ...data, slug: generatedSlug, ogImage, content });
+      toast.success(
         <div>
-          <p className="font-semibold">✅ Success</p>
+          <p className="font-semibold"> Success</p>
           <p>
             {initialData
               ? "Your blog was updated."
@@ -91,11 +93,21 @@ const Editor = ({ onSave, initialData }) => {
         router.push(`/blog/${generatedSlug}`);
       }
     } catch (error) {
-      console.error(error.message);
+      console.error("Form Submission Error (caught in Editor):", error.message);
+      toast.error(
+        <div>
+          <p className="font-bold text-red-500">Error</p>
+          <p>Failed to save your blog post. Please try again.</p>
+        </div>
+      );
     }
   };
 
   const handleGenerateContentUsingAI = async () => {
+    const aiContentToastId = toast.loading("Generating content with AI...", {
+      description: "This might take a moment.",
+    });
+    setIsGeneratingContent(true);
     try {
       const res = await fetch("/api/ai-content", {
         method: "POST",
@@ -112,12 +124,30 @@ const Editor = ({ onSave, initialData }) => {
       const data = await res.json();
       if (data.content) {
         setContent(data.content);
+        toast.success("Content generated successfully!", {
+          id: aiContentToastId,
+        });
       } else {
+        toast.error(
+          <div>
+            <p className="font-bold text-red-500">AI Error</p>
+            <p>{data.error || "Failed to generate content."}</p>
+          </div>,
+          { id: aiContentToastId }
+        );
         console.error(" OpenAI Error:", data.error || "Unknown error");
       }
     } catch (error) {
+      toast.error(
+        <div>
+          <p className="font-bold text-red-500">Network Error</p>
+          <p>Could not connect to AI service. Please try again.</p>
+        </div>,
+        { id: aiContentToastId }
+      );
       console.error(" Client Error:", error.message);
     } finally {
+      setIsGeneratingContent(false);
       closeDialogRef.current?.click();
     }
   };
@@ -125,6 +155,10 @@ const Editor = ({ onSave, initialData }) => {
   const handleRephrase = async () => {
     const selection = quillRef?.current?.getEditor().getSelection();
     if (selection && selection.length > 0) {
+      const rephraseToastId = toast.loading("Rephrasing selected text...", {
+        description: "This might take a moment.",
+      });
+      setIsRephrasing(true);
       try {
         const selectedText = quillRef?.current
           ?.getEditor()
@@ -154,22 +188,29 @@ const Editor = ({ onSave, initialData }) => {
             .insertText(selection.index, data.content);
 
           setSelectionExist(false);
+          toast.success("Text rephrased successfully!", {
+            id: rephraseToastId,
+          });
         } else {
-          toast(
+          toast.error(
             <div>
-              <p className="font-bold text-red-500">Error</p>
-              <p>AI content missing or invalid!</p>
-            </div>
+              <p className="font-bold text-red-500">AI Error</p>
+              <p>{data.error || "AI content missing or invalid!"}</p>
+            </div>,
+            { id: rephraseToastId }
           );
         }
       } catch (error) {
         console.error(error.message);
-        toast(
+        toast.error(
           <div>
-            <p className="font-bold text-red-500">Uh oh!</p>
-            <p>Content Rephrasing Failed!</p>
-          </div>
+            <p className="font-bold text-red-500">Network Error</p>
+            <p>Content Rephrasing Failed! Please try again.</p>
+          </div>,
+          { id: rephraseToastId }
         );
+      } finally {
+        setIsRephrasing(false);
       }
     } else {
       toast(

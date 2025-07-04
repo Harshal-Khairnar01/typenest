@@ -8,9 +8,7 @@ export default function ImageUpload({ returnImage, preloadedImage }) {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
 
-  useEffect(() => {
-    console.log(preloadedImage, "ppppppppp");
-  }, [preloadedImage]);
+ 
 
   const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   const CLOUDINARY_UPLOAD_PRESET =

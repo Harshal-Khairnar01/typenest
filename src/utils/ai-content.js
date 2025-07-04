@@ -31,13 +31,13 @@ export default async function AIContent({
         max_tokens: contentGen ? 1700 : 600,
       }),
     });
-    console.log(res);
+    // console.log(res);
     if (!res.ok) {
       throw new Error("Response not found!");
     }
     const data = await res.json();
     const returnValue = data.choices[0].message.content;
-    console.log(returnValue, "hhhhhhhh");
+    // console.log(returnValue, "hhhhhhhh");
     return returnValue;
   } catch (error) {
     console.error(error.message);

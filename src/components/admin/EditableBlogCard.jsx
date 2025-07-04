@@ -180,7 +180,7 @@ export default function EditableBlogCards({ post }) {
               {dateFormat(post.createdAt)}
             </span>
           </div>
-          <div className=" flex gap-2 space-x-2 items-center">
+          <div className=" flex flex-wrap gap-2 space-x-2 items-center">
             {currentStatus === "PUBLISHED" ? (
               <Button
                 onClick={() => handleConvertToDraft(post.id)}

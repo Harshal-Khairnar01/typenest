@@ -12,7 +12,7 @@ export default async function UserAllPosts({ page, category, user }) {
   });
   return (
     <>
-      <section className=" p-8 flex flex-col gap-4 relative">
+      <section className=" p-8 flex flex-col gap-4 relative pb-24">
         <h2>Manage all the blogs</h2>
         <CategoryFilter />
         {posts.map((post) => {
@@ -22,7 +22,7 @@ export default async function UserAllPosts({ page, category, user }) {
           currentPage={page}
           totalItems={count}
           perPage={config.perPage}
-          className=" fixed bottom-10 left-1/2 -translate-x-1/2"
+          className="mt-8 flex justify-center"
         />
       </section>
     </>

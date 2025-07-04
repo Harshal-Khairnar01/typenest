@@ -10,12 +10,12 @@ export default async function AllPosts({ searchParams }) {
   const category = searchParams.cat || null;
   const session = await getServerSession(authOptions);
   if (!session) {
-   redirect("/sign-in?message=unauthorized");
+    redirect("/sign-in?message=unauthorized");
   }
   const adminCheck = await isAdmin(session);
   if (!adminCheck) {
     if (!session.user) {
-      redirect("/sign-in?message=invalid_session_user");    
+      redirect("/sign-in?message=invalid_session_user");
     }
     return (
       <>

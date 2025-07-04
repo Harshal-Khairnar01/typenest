@@ -11,7 +11,7 @@ export default function Pagination({
   const totalPages = Math.ceil(totalItems / perPage);
 
   const handlePageChange = (page) => {
-    console.log(page, totalPages);
+    // console.log(page, totalPages);
     if (page < 1 || page > totalPages) return;
     router.push(`?page=${page}`);
   };

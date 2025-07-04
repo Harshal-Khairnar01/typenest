@@ -28,10 +28,10 @@ export default function RootLayout({ children }) {
               <SidebarTrigger />
               <Navbar />
               {children}
-              <Toaster />
             </main>
           </SidebarProvider>
         </AuthProvider>
+              <Toaster position="top-center" />
       </body>
     </html>
   );

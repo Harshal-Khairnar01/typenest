@@ -47,7 +47,7 @@ export async function GET(request) {
       }
     );
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     return NextResponse.json(
       { message: "Failed to generate the OG Image" },
       { status: 500 }

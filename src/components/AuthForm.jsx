@@ -1,4 +1,4 @@
-import { Anvil } from "lucide-react";
+import { Anvil, Pencil } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -25,7 +25,7 @@ export default function AuthForm({ origin }) {
   return (
     <>
       <div className=" w-full  sm:1/2 md:w-1/5  mx-4 p-4 rounded-lg bg-zinc-800 flex flex-col items-center gap-4">
-        <Anvil className=" size-12 text-gray-300" />
+        <Pencil className=" size-8 text-gray-300" />
         <p className=" text-center  text-sm text-gray-200">
           {origin === "signup"
             ? "Welcome, by continuing with Typenest sign in, you'll be a Member"

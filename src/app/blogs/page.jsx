@@ -1,17 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 
+const PLACEHOLDER_IMAGE_URL = "/notImage.png";
 
 const fetchAllBlogs = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/get`);
-  const data = await res.json();
-  return data;
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/get`);
+    if (!res.ok) {
+      console.error(`Error fetching blogs: ${res.status} ${res.statusText}`);
+      return [];
+    }
+    const data = await res.json();
+
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    return [];
+  }
 };
 
 export default async function Blogs() {
   const blogData = await fetchAllBlogs();
   return (
-    <section className=" grid gap-4 grid-cols-2 md:grid-cols-3 p-8">
+    <section className=" grid gap-4 grid-cols-1 md:grid-cols-3 p-8">
       {blogData.map((blog) => {
         return (
           <BlogCard
@@ -28,14 +39,20 @@ export default async function Blogs() {
 }
 
 const BlogCard = ({ title, excerpt, image, url }) => {
+  const imageSrc =
+    image && typeof image === "string" && image.trim() !== ""
+      ? image
+      : PLACEHOLDER_IMAGE_URL;
+  const imageAlt = title || "Blog Post Image";
+
   return (
     <div className=" bg-gray-600/20 rounded-lg border flex flex-col p-2 gap-1 hover:scale-[1.03] transition-all delay-100 duration-300">
       <Image
         className=" w-full rounded-md "
-        src={image}
+        src={imageSrc}
         width={300}
         height={170}
-        alt={title}
+        alt={imageAlt}
       />
       <h2 className=" text-xl font-bold text-gray-200">{title}</h2>
       <p className=" text-sm text-gray-400">{excerpt}</p>

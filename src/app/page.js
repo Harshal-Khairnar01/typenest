@@ -1,32 +1,45 @@
 import { Button } from "@/components/ui/button";
 import { Layers, Pencil, Zap } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Landing() {
   return (
     <main className=" w-full">
       <section className=" w-full h-[50vh] sm:h-[70vh] flex justify-center ">
-        <div className="  flex flex-col justify-center items-center gap-5 text-center ">
+        <div className="  flex flex-col justify-center items-center gap-5 text-center p-2">
           <div>
-            <h1 className=" text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-              Manage your content with Ease
+            <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight">
+              Unleash Your Content with{" "}
+              <span className="text-blue-400">Typenest</span>
             </h1>
             <p className="  text-gray-400 max-w-[700px] mx-auto">
-              Streamline your content workflow, publixh with confidence.
+              Streamline your content workflow, publish with confidence, and
+              elevate your online presence with ease.
             </p>
           </div>
-          <div className=" flex gap-3">
-            <Link href="/sign-in"  variant={"default"} className=" bg-gray-200 hover:bg-gray-300 transition-all   duration-200 delay-100 text-black  px-4 py-1  rounded-sm">
-              Try it Out!
+          <div className="flex gap-4">
+            {" "}
+            {/* Increased gap for better separation */}
+            {/* Primary CTA: Start Creating Now! */}
+            <Link
+              href="/sign-in"
+              className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white font-semibold p-2 lg:px-8 lg:py-3 rounded-lg shadow-lg transform hover:scale-105"
+            >
+              Start Creating Now!
             </Link>
-            <Button variant={"outline"}>Learn more</Button>
+            {/* Secondary CTA: Learn more */}
+            <Link
+              href="/features"
+              className="border border-white text-white p-2 lg:px-8 lg:py-3 rounded-lg transition-all duration-300 hover:bg-white hover:text-gray-900 hover:border-transparent"
+            >
+              Learn more
+            </Link>
           </div>
         </div>
       </section>
 
       <section className=" min-h-screen sm:min-h-[50vh] bg-gray-600/10 w-full flex justify-center items-center px-4">
-        <div className=" grid gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 ">
+        <div className=" grid gap-10 lg:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
           <span className=" flex flex-col items-center gap-2">
             <Pencil size={50} />
             <h3 className=" text-2xl font-bold text-gray-100">
@@ -56,16 +69,22 @@ export default function Landing() {
       </section>
 
       <section className="  h-[60vh] sm:h-[50vh] w-full flex flex-col justify-center  items-start">
-       <div className=" max-w-[50%] mx-auto space-y-3">
-         <h4 className=" font-bold text-2xl">Ready to Transform your Content Journey</h4>
-        <p className=" text-sm text-gray-400">
-          Join thousands of content creators like you who choose Typenest
-        </p>
-        <div className=" flex gap-2">
-          <input className=" bg-zinc-800 focus:outline-none rounded-md px-2 py-[7px] text-sm text-gray-500" type="text" placeholder="Enter your email" />
-        <Button variant={"outline"}>Submit</Button>
+        <div className=" max-w-[80%] lg:max-w-[50%] mx-auto space-y-3">
+          <h4 className=" font-bold text-2xl">
+            Ready to Transform your Content Journey
+          </h4>
+          <p className=" text-sm text-gray-400">
+            Join thousands of content creators like you who choose Typenest
+          </p>
+          <div className=" flex gap-2">
+            <input
+              className=" bg-zinc-800 focus:outline-none rounded-md px-2 py-[7px] text-sm text-gray-500"
+              type="text"
+              placeholder="Enter your email"
+            />
+            <Button variant={"outline"}>Submit</Button>
+          </div>
         </div>
-       </div>
       </section>
     </main>
   );

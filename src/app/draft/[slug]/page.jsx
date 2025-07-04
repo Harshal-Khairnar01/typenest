@@ -32,7 +32,7 @@ const EditPreviousDraft = ({ params }) => {
         return;
       }
       const postData = await res.json();
-      console.log(postData, "directa cccc");
+      // console.log(postData, "directa cccc");
       setPost(postData);
     };
     fetchPost();

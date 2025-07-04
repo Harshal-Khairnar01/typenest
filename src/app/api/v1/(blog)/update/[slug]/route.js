@@ -22,7 +22,7 @@ export async function PUT(request, { params }) {
 
   const session = await getServerSession(authOptions);
   const isadmin = await isAdmin(session);
-  console.log(session, "indisde update");
+  // console.log(session, "indisde update");
 
   const post = await prisma.post.findUnique({
     where: { slug },
@@ -65,7 +65,7 @@ export async function PUT(request, { params }) {
     revalidateTag(slug);
     return NextResponse.json(updatedPost, { status: 200 });
   } catch (error) {
-    console.log(error.message);
+    // console.log(error.message);
     return NextResponse.json(
       {
         message: "failed to update post!",

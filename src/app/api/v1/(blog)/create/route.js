@@ -22,20 +22,9 @@ export async function POST(request) {
     status,
   } = body;
 
-  // console.log(
-  //   title,
-  //   slug,
-  //   ogImage,
-  //   content,
-  //   excerpt,
-  //   metaDescription,
-  //   category,
-  //   keywords,
-  //   status
-  // );
-  // console.log(metaDescription)
+  
   if (!title || !content || !slug || !category || !session.user.id) {
-    return NextResponse.json({ message: "Missing Fields" }), { status: 400 };
+    return NextResponse.json({ message: "Missing required Fields" }), { status: 400 };
   }
   const statusPost = status || "DRAFT";
 
@@ -66,13 +55,13 @@ export async function POST(request) {
         authorId: session.user.id,
         catSlug:categoryCheck.slug,
         status: statusPost,
-      },
+      }
     });
     return NextResponse.json(post, { status: 201 });
   } catch (error) {
-    console.log(error.message)
+    // console.log(error.message)
     return NextResponse.json(
-      { message: "Could not save post" },
+      { message: "Could not save post due to a server error" },
       { status: 500 }
     );
   }

@@ -74,6 +74,14 @@ const Editor = ({ onSave, initialData }) => {
   }, [initialData, setValue]);
 
   const handleForm = async (data) => {
+    const action = initialData ? "updating" : "publishing";
+    const successMessage = initialData
+      ? "Your blog was updated."
+      : "Your blog was published.";
+
+    const saveToastId = toast.loading(`Your blog is being ${action}...`, {
+      description: "This may take a moment.",
+    });
     try {
       const generatedSlug = initialData
         ? initialData.slug
@@ -81,24 +89,31 @@ const Editor = ({ onSave, initialData }) => {
       await onSave({ ...data, slug: generatedSlug, ogImage, content });
       toast.success(
         <div>
-          <p className="font-semibold"> Success</p>
-          <p>
-            {initialData
-              ? "Your blog was updated."
-              : "Your blog was published."}
-          </p>
-        </div>
+          <p className="font-semibold">Success</p>
+          <p>{successMessage}</p>
+        </div>,
+        { id: saveToastId }
       );
       if (data.status === "PUBLISHED") {
         router.push(`/blog/${generatedSlug}`);
       }
     } catch (error) {
       console.error("Form Submission Error (caught in Editor):", error.message);
+
+      let errorMessage = "Failed to save your blog post. Please try again.";
+      if (error.message.includes("Authentication required")) {
+        errorMessage = "You need to log in to perform this action.";
+        router.push("/sign-in"); 
+      } else if (error.message.includes("Missing fields")) {
+        errorMessage = error.message; 
+      }
+
       toast.error(
         <div>
           <p className="font-bold text-red-500">Error</p>
-          <p>Failed to save your blog post. Please try again.</p>
-        </div>
+          <p>{errorMessage}</p>
+        </div>,
+        { id: saveToastId }
       );
     }
   };

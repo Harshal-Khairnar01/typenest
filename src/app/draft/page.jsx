@@ -42,23 +42,22 @@ const Draft = () => {
 
       if (!res.ok) {
         const errorData = await res.json();
+
         if (res.status === 401) {
-          toast.error("Authentication required. Please log in.");
-          router.push("/sign-in");
+          throw new Error("Authentication required to save post.");
         } else if (res.status === 400) {
-          toast.error(
+          throw new Error(
             `Missing fields: ${
               errorData.message || "Please fill all required fields."
             }`
           );
         } else {
-          toast.error(
+          throw new Error(
             `Failed to save post: ${
               errorData.message || "An unexpected error occurred."
             }`
           );
         }
-        throw new Error(errorData.message || "Post Saving failed");
       }
 
       const responseData = await res.json();

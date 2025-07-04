@@ -27,7 +27,9 @@ export default function RootLayout({ children }) {
             <main className=" w-full">
               <SidebarTrigger />
               <Navbar />
-              {children}
+               <Suspense fallback={<div>Loading authentication...</div>}>
+                {children}
+              </Suspense>
             </main>
           </SidebarProvider>
         </AuthProvider>

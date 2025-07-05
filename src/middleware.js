@@ -1,27 +1,37 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-const allowedOrigins = ['http://localhost:3000', 'https://typenest.vercel.app'];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://typenest-by-harshal.vercel.app",
+];
 
 export async function middleware(request) {
-  const origin = request.headers.get('origin');
+  const origin = request.headers.get("origin");
 
- 
-  if (request.method === 'OPTIONS') {
+  if (request.method === "OPTIONS") {
     if (origin && allowedOrigins.includes(origin)) {
       const response = NextResponse.next();
-      response.headers.set('Access-Control-Allow-Origin', origin);
-      response.headers.set('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-      response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      response.headers.set("Access-Control-Allow-Origin", origin);
+      response.headers.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+      response.headers.set(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+      );
       return response;
     } else {
-      return NextResponse.json({ message: 'CORS Blocked || Unauthorized' }, { status: 403 });
+      return NextResponse.json(
+        { message: "CORS Blocked || Unauthorized" },
+        { status: 403 }
+      );
     }
   }
 
-
-  if (request.method === 'POST') {
+  if (request.method === "POST") {
     if (origin && !allowedOrigins.includes(origin)) {
-      return NextResponse.json({ message: 'CORS Blocked || Unauthorized' }, { status: 403 });
+      return NextResponse.json(
+        { message: "CORS Blocked || Unauthorized" },
+        { status: 403 }
+      );
     }
   }
 
@@ -29,5 +39,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: '/api/v1/:path*',
+  matcher: "/api/v1/:path*",
 };

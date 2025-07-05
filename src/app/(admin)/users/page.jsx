@@ -8,14 +8,14 @@ export default async function AllUsers(){
     const session=await getServerSession(authOptions);
 
     if(!session){
-        return <section className=" w-full h-screen flex justify-center items-center">
+        return <section className=" w-full min-h-[70vh] flex justify-center items-center">
             You are not Authenticated!
         </section>
     }
 
     const adminCheck=await isAdmin(session);
     if(!adminCheck){
-        return <section className=" w-full h-screen flex justify-center items-center">
+        return <section className=" w-full min-h-[70vh] flex justify-center items-center">
             You are not Authorized!
         </section>
     }

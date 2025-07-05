@@ -10,7 +10,7 @@ export default function Landing() {
           <div>
             <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight">
               Unleash Your Content with{" "}
-              <span className="text-blue-400">Typenest</span>
+              <span className=" text-yellow-400">Typenest</span>
             </h1>
             <p className="  text-gray-400 max-w-[700px] mx-auto">
               Streamline your content workflow, publish with confidence, and
@@ -23,7 +23,7 @@ export default function Landing() {
             {/* Primary CTA: Start Creating Now! */}
             <Link
               href="/sign-in"
-              className="bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white font-semibold p-2 lg:px-8 lg:py-3 rounded-lg shadow-lg transform hover:scale-105"
+              className="bg-slate-800 hover:bg-slate-900 transition-all duration-300 text-white font-semibold p-2 lg:px-8 lg:py-3 rounded-lg shadow-lg transform hover:scale-105"
             >
               Start Creating Now!
             </Link>
@@ -38,51 +38,36 @@ export default function Landing() {
         </div>
       </section>
 
-      <section className=" min-h-screen sm:min-h-[50vh] bg-gray-600/10 w-full flex justify-center items-center px-4">
-        <div className=" grid gap-10 lg:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 ">
-          <span className=" flex flex-col items-center gap-2">
-            <Pencil size={50} />
-            <h3 className=" text-2xl font-bold text-gray-100">
-              Intuitive Editor
-            </h3>
-            <p className=" w-[70%] text-gray-400  text-center">
-              Create and edit content with user friendly interface
+      <section className="min-h-screen sm:min-h-[60vh] w-full flex justify-center items-center px-4 py-12">
+        <div className="grid gap-10 lg:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+         
+          <div className="flex flex-col items-center gap-4 bg-gray-800/40 rounded-2xl p-6 transition hover:scale-105 hover:bg-gray-800/60 duration-300 ease-in-out shadow-md hover:shadow-lg">
+            <Pencil size={50} className="text-sky-300" />
+            <h3 className="text-2xl font-bold text-white">Intuitive Editor</h3>
+            <p className="text-gray-300 text-center leading-relaxed max-w-xs">
+              Craft your content effortlessly with a clean, distraction-free
+              editor designed for creators.
             </p>
-          </span>
-          <span className=" flex flex-col items-center gap-2">
-            <Layers size={50} />
-            <h3 className=" text-2xl font-bold text-gray-100">
-              Flexible Tools
-            </h3>
-            <p className=" w-[70%] text-gray-400  text-center">
-              Create and edit content with user friendly interface
-            </p>
-          </span>
-          <span className=" flex flex-col items-center gap-2">
-            <Zap size={50} />
-            <h3 className=" text-2xl font-bold text-gray-100">Blazing Fast</h3>
-            <p className=" w-[70%] text-gray-400  text-center">
-              Create and edit content with user friendly interface
-            </p>
-          </span>
-        </div>
-      </section>
+          </div>
 
-      <section className="  h-[60vh] sm:h-[50vh] w-full flex flex-col justify-center  items-start">
-        <div className=" max-w-[80%] lg:max-w-[50%] mx-auto space-y-3">
-          <h4 className=" font-bold text-2xl">
-            Ready to Transform your Content Journey
-          </h4>
-          <p className=" text-sm text-gray-400">
-            Join thousands of content creators like you who choose Typenest
-          </p>
-          <div className=" flex gap-2">
-            <input
-              className=" bg-zinc-800 focus:outline-none rounded-md px-2 py-[7px] text-sm text-gray-500"
-              type="text"
-              placeholder="Enter your email"
-            />
-            <Button variant={"outline"}>Submit</Button>
+          
+          <div className="flex flex-col items-center gap-4 bg-gray-800/40 rounded-2xl p-6 transition hover:scale-105 hover:bg-gray-800/60 duration-300 ease-in-out shadow-md hover:shadow-lg">
+            <Layers size={50} className="text-purple-400" />
+            <h3 className="text-2xl font-bold text-white">Flexible Tools</h3>
+            <p className="text-gray-300 text-center leading-relaxed max-w-xs">
+              Access a suite of dynamic tools to design, edit, and manage
+              content—just the way you want.
+            </p>
+          </div>
+
+         
+          <div className="flex flex-col items-center gap-4 bg-gray-800/40 rounded-2xl p-6 transition hover:scale-105 hover:bg-gray-800/60 duration-300 ease-in-out shadow-md hover:shadow-lg">
+            <Zap size={50} className="text-green-400" />
+            <h3 className="text-2xl font-bold text-white">Blazing Fast</h3>
+            <p className="text-gray-300 text-center leading-relaxed max-w-xs">
+              Experience lightning-fast performance with optimized load times
+              and smooth transitions.
+            </p>
           </div>
         </div>
       </section>

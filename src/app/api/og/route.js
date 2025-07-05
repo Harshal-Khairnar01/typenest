@@ -5,6 +5,12 @@ export const runtime = "edge";
 const font = fetch(new URL("./lato.ttf", import.meta.url)).then((res) =>
   res.arrayBuffer()
 );
+const logo = fetch(new URL("./favicon.png", import.meta.url))
+  .then((res) => res.arrayBuffer())
+  .then(
+    (buffer) =>
+      `data:image/png;base64,${Buffer.from(buffer).toString("base64")}`
+  );
 
 export async function GET(request) {
   try {
@@ -12,6 +18,8 @@ export async function GET(request) {
     const title =
       searchParams.get("title").charAt(0).toUpperCase() +
         searchParams.get("title").slice(1) || "Typenest";
+
+    const [fontData, logoData] = await Promise.all([font, logo]);
 
     return new ImageResponse(
       (
@@ -31,7 +39,16 @@ export async function GET(request) {
           >
             {title}
           </h1>
-          <h2 style={{ color: "black" }}>Powered by Typenest</h2>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap:"15px"
+            }}
+          >
+            <h2 style={{ color: "black" }}>Powered by Typenest</h2>
+            <img src={logoData} alt="Logo" width="70" height="70" tw="mb-1" />
+          </div>
         </div>
       ),
       {

@@ -53,14 +53,14 @@ export default function SearchPage() {
   }, [query]);
 
   return (
-    <section className=" w-full min-h-screen flex flex-col p-10 gap-3">
+    <section className=" w-full min-h-[60vh] flex flex-col p-10 gap-3">
       <Input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         type="text"
         placeholder="Search for a post"
       />
-      {loading && "Loading..."}
+      {loading && "Searching..."}
       {
         <ul className=" flex flex-col gap-2">
           {error ? (

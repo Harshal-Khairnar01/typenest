@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export default function FeaturesPage() {
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen  text-white">
      
       <section className="py-20 px-4 text-center bg-gradient-to-br from-gray-900 to-black">
         <h1 className="text-5xl font-extrabold tracking-tight text-white mb-4">
@@ -54,7 +54,7 @@ export default function FeaturesPage() {
       </section>
 
       
-      <section className="py-20 px-4 text-center bg-gradient-to-br from-black to-gray-900">
+      <section className="py-20 px-4 text-center ">
         <h2 className="text-4xl font-bold text-white mb-6">
           Ready to Elevate Your Content?
         </h2>

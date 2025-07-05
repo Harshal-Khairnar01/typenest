@@ -19,13 +19,15 @@ export default async function AllPosts({ searchParams }) {
     }
     return (
       <>
-        <UserAllPosts page={page} category={category} user={session.user} />
+        <div className=" min-h-[80vh]">
+          <UserAllPosts page={page} category={category} user={session.user} />
+        </div>
       </>
     );
   }
   return (
     <>
-      <div>
+      <div className=" min-h-[80vh]">
         <AdminAllPosts page={page} category={category} />
       </div>
     </>

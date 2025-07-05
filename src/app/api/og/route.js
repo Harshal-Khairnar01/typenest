@@ -13,6 +13,8 @@ export async function GET(request) {
       searchParams.get("title").charAt(0).toUpperCase() +
         searchParams.get("title").slice(1) || "Typenest";
 
+    const [fontData] = await Promise.all([font, logo]);
+
     return new ImageResponse(
       (
         <div
@@ -31,7 +33,15 @@ export async function GET(request) {
           >
             {title}
           </h1>
-          <h2 style={{ color: "black" }}>Powered by Typenest</h2>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "15px",
+            }}
+          >
+            <h2 style={{ color: "black" }}>Powered by Typenest</h2>
+          </div>
         </div>
       ),
       {

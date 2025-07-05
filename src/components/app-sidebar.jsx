@@ -53,7 +53,7 @@ const adminItems = [
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent>
+      <SidebarContent className=" bg-zinc-950">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>

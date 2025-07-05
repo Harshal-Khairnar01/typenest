@@ -22,7 +22,10 @@ const fetchAllBlogs = async () => {
 export default async function Blogs() {
   const blogData = await fetchAllBlogs();
   return (
-    <section className=" grid gap-4 grid-cols-1 md:grid-cols-3 p-8">
+    <section className=" grid gap-4 grid-cols-1 md:grid-cols-3 p-8 min-h-[60vh]">
+      {
+        blogData.length==0 && <h4 className=" px-4">No Blogs Found</h4>
+      }
       {blogData.map((blog) => {
         return (
           <BlogCard

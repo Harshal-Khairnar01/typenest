@@ -46,7 +46,7 @@ export default async function SigleBlog({ params }) {
             alt={post.title}
           />
         )}
-        <h1 className=" text-2xl md:text-4xl font-bold">{post.title}</h1>
+        <h1 className=" text-2xl md:text-4xl font-bold px-2">{post.title}</h1>
         <div className=" meta-of-a-blog space-y-2">
           <div className="  flex flex-col sm:flex-row gap-5">
             <div className=" flex gap-2  items-center">
@@ -56,7 +56,7 @@ export default async function SigleBlog({ params }) {
               </p>
             </div>
             <Link
-              className=" flex gap-2 items-center justify-center"
+              className=" flex gap-2 items-center  px-2"
               href={`/user/${post.author.username}`}
             >
               <Image

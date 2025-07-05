@@ -47,9 +47,9 @@ const UserModalComponent = ({ user }) => {
       <DropdownMenuContent>
         <DropdownMenuLabel>Hi, {user.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        {/* <DropdownMenuItem>
           <Link href={`/profile/${user.username}`}> Go to Profile</Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
         <DropdownMenuItem>
           <SignOut />
         </DropdownMenuItem>

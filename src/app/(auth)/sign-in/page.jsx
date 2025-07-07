@@ -58,7 +58,7 @@ export default function SignIn() {
   }, [searchParams]);
 
   return (
-    <section className=" w-full flex h-screen justify-center items-center">
+    <section className=" w-full flex h-[70vh] justify-center items-center">
       <AuthForm />
     </section>
   );

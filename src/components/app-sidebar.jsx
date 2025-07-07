@@ -1,4 +1,16 @@
-import { Calendar, Home, Inbox, Search, Settings,Pencil, User, NotebookPen } from "lucide-react"
+"use client"; // Important if not already at top
+
+import Link from "next/link";
+import {
+  Calendar,
+  Home,
+  Inbox,
+  Search,
+  Settings,
+  Pencil,
+  User,
+  NotebookPen,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -9,7 +21,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 // Menu items.
 const items = [
@@ -33,8 +45,7 @@ const items = [
     url: "/search",
     icon: Search,
   },
- 
-]
+];
 
 const adminItems = [
   {
@@ -46,14 +57,13 @@ const adminItems = [
     title: "All Users",
     url: "/users",
     icon: User,
-  }
- 
-]
+  },
+];
 
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarContent className=" bg-zinc-950">
+      <SidebarContent className="bg-zinc-950">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -61,16 +71,17 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
         <SidebarGroup>
           <SidebarGroupLabel>Admin</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -78,10 +89,10 @@ export function AppSidebar() {
               {adminItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -90,5 +101,5 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

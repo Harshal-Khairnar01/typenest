@@ -329,7 +329,7 @@ const Editor = ({ onSave, initialData }) => {
 
         <input
           {...register("excerpt")}
-          placeholder="Enter an excerpt"
+          placeholder="Enter excerpt (short summary)"
           className=" font-bold text-lg bg-zinc-800 px-3 py-2 rounded-sm outline-none w-full"
           type="text"
         />

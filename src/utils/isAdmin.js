@@ -1,6 +1,6 @@
 const listOfAdmins = ["test@gmail.com", 
+    "142niharikachauhan@gmail.com",
   "harshalkhairnar7244@gmail.com",
-  "142niharikachauhan@gmail.com"
   
 ];
 
